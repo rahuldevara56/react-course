@@ -17,37 +17,60 @@
   <script type="text/babel">
 
     function ChatInput({ chatMessages, setChatMessages }) {
-      const [inputText, setInputText ] = React.useState('');
+      const [inputText, setInputText] = React.useState('');
+      const [isLoading, setIsLoading] = React.useState(false);
 
-      function saveInputtext(event){
-       setInputText(event.target.value); 
+      function saveInputtext(event) {
+        setInputText(event.target.value);
       }
 
-      function sendMessage(){
-        const newChatMessages =[
+      async function sendMessage() {
+
+        if(isLoading || inputText ===''){
+          return;
+        }
+
+        setIsLoading(true);
+
+         setInputText('')
+        const newChatMessages = [
           ...chatMessages,
           {
-            message:inputText,
-            sender:'user',
+            message: inputText,
+            sender: 'user',
             id: crypto.randomUUID()
           }
         ]
 
-          setChatMessages(newChatMessages);
+        setChatMessages([
+        ...newChatMessages,{
+           message: 'Loading...',
+            sender: 'robot',
+            id: crypto.randomUUID()
+        }
+        ]);
 
-        const response = Chatbot.getResponse(inputText);
-         setChatMessages([
+        const response = await Chatbot.getResponseAsync(inputText);
+        setChatMessages([
           ...newChatMessages,
           {
-            message:response,
-            sender:'robot',
+            message: response,
+            sender: 'robot',
             id: crypto.randomUUID()
           }
         ]);
-
-
-        setInputText('')
+        setIsLoading(false);
       }
+
+      function sendMeassageEnter(event) {
+        if (event.key === 'Enter') {
+          sendMessage()
+        } else if (event.key === 'Escape') {
+          setInputText('')
+        }
+      }
+
+
 
 
       return (
@@ -57,8 +80,9 @@
             size="30"
             onChange={saveInputtext}
             value={inputText}
+            onKeyDown={sendMeassageEnter}
           />
-          <button onClick= {sendMessage}>send</button>
+          <button onClick={sendMessage} >send</button>
         </>
       );
     }
@@ -93,8 +117,8 @@
     };
 
     function ChatMessages({ chatMessages }) {
-     
-       return (
+
+      return (
         <>
           {chatMessages.map((chatMessage) => {
             return (
@@ -112,7 +136,7 @@
     }
 
     function App() {
-       const [chatMessages, setChatMessages] = React.useState([{
+      const [chatMessages, setChatMessages] = React.useState([{
         message: 'hello chatbot',
         sender: 'user',
         id: 'id1'
@@ -134,17 +158,17 @@
       //const setChatMessage = array[1];
       return (
         <>
-          <ChatInput 
-          chatMessages={chatMessages}
-          setChatMessages={setChatMessages}
+          <ChatInput
+            chatMessages={chatMessages}
+            setChatMessages={setChatMessages}
           />
-          <ChatMessages 
-           chatMessages={chatMessages}
+          <ChatMessages
+            chatMessages={chatMessages}
           />
         </>
       );
     }
-       const container = document.querySelector('.js-container');
+    const container = document.querySelector('.js-container');
     ReactDOM.createRoot(container).render(<App />);
   </script>
 </body>
