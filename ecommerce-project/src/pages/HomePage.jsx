@@ -2,18 +2,24 @@
 import './HomePage.css'
 import { Header } from '../components/Header'
 import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 export function HomePage() {
 
   const [products, setProducts] = useState([])
 
     useEffect(() => {
-         fetch('http://localhost:3000/api/products')
-          .then((response) => {
-           return response.json();
-          }).then((data) => {
-    setProducts(data); 
-  } )                                                           
+  //        fetch('http://localhost:3000/api/products')
+  //         .then((response) => {
+  //          return response.json();
+  //         }).then((data) => {
+  //   setProducts(data); 
+  // } )      
+  
+    axios.get('http://localhost:3000/api/products')
+           .then((response) => {
+      setProducts(response.data);
+   } )                
 
     },[])
  
