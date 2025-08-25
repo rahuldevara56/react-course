@@ -1,11 +1,11 @@
-import { Header } from '../components/Header'
+import { Header } from '../../components/Header'
 import './OrdersPage.css'
 import { Link } from 'react-router'
 import buyagainicon from '../assets/images/icons/buy-again.png'
 import axios from 'axios'
 import { useState, useEffect, Fragment } from 'react'
 import dayjs from 'dayjs'
-import { currencyFormat } from '../utils/money'
+import { currencyFormat } from '../../utils/money'
 
 export function OrdersPage({ cart }) {
 

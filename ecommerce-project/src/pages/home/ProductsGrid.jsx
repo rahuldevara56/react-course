@@ -1,55 +1,23 @@
+import { currencyFormat } from "../../utils/money"
 
-import './HomePage.css'
-import { Header } from '../components/Header'
-import { useState, useEffect } from 'react'
-import axios from 'axios'
-import { currencyFormat } from '../utils/money'
-
-export function HomePage({cart}) {
-
-  const [products, setProducts] = useState([])
- 
-
-    useEffect(() => {
-  //        fetch('http://localhost:3000/api/products')
-  //         .then((response) => {
-  //          return response.json();
-  //         }).then((data) => {
-  //   setProducts(data); 
-  // } )      
-  
-    axios.get('/api/products')
-           .then((response) => {
-      setProducts(response.data);
-   } )  
-   
-
-    },[])
- 
+export function ProductsGrid({products}) {
   return (
-    <>
-      <title>Ecommerce Project</title>
-      <link rel="icon" type="image/svg+xml" href="images/home-favicon.png" />
+    <div className="products-grid">
 
-      <Header cart = {cart}/>
-
-      <div className="home-page">
-        <div className="products-grid">
-
-          {products.map((product) => {
-            return (<div key={product.id} className= "product-container" >
+      {products.map((product) => {
+        return (<div key={product.id} className="product-container" >
           <div className="product-image-container">
             <img className="product-image"
               src={product.image} />
           </div>
 
           <div className="product-name limit-text-to-2-lines">
-           {product.name}
+            {product.name}
           </div>
 
           <div className="product-rating-container">
             <img className="product-rating-stars"
-              src={`images/ratings/rating-${(product.rating.stars* 10)}.png`}/>
+              src={`images/ratings/rating-${(product.rating.stars * 10)}.png`} />
             <div className="product-rating-count link-primary">
               87
             </div>
@@ -85,13 +53,10 @@ export function HomePage({cart}) {
             Add to Cart
           </button>
         </div>
-        )})
+        )
+      })
 
-        }
-      </div>
-    </div >
-    </>
+      }
+    </div>
   )
 }
-
-
