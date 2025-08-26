@@ -1,7 +1,7 @@
 import { Header } from '../../components/Header'
 import './OrdersPage.css'
 import { Link } from 'react-router'
-import buyagainicon from '../assets/images/icons/buy-again.png'
+import buyagainicon from '../../assets/images/icons/buy-again.png'
 import axios from 'axios'
 import { useState, useEffect, Fragment } from 'react'
 import dayjs from 'dayjs'
