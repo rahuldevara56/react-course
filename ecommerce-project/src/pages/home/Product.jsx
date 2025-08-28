@@ -3,7 +3,7 @@ import { currencyFormat } from "../../utils/money"
 import axios from "axios"
 
 export function Product({product, loadCart}) {
-   const [quantity, setQuantity]= useState()
+   const [quantity, setQuantity]= useState(1)
 
    const addToCart = async() => {
            await axios.post('/api/cart-items',{
@@ -63,7 +63,7 @@ export function Product({product, loadCart}) {
           </div>
 
           <button className="add-to-cart-button button-primary"
-          onClick={addToCart}>
+            onClick={addToCart}>
             Add to Cart
           </button>
         </div>
