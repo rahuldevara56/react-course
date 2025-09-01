@@ -7,7 +7,7 @@ import { useState, useEffect, Fragment } from 'react'
 import dayjs from 'dayjs'
 import { currencyFormat } from '../../utils/money'
 
-export function OrdersPage({ cart }) {
+export function OrdersPage({ cart, loadCart }) {
 
   const [orders, setOrders] = useState([])
 
@@ -17,6 +17,8 @@ export function OrdersPage({ cart }) {
         setOrders(response.data)
       })
   }, [])
+
+
 
   return (
     <>
@@ -54,6 +56,13 @@ export function OrdersPage({ cart }) {
 
                 <div className="order-details-grid">
                   {order.products.map((orderProduct) => {
+                    const addToCart = async () => {
+                      await axios.post('/api/cart-items', {
+                        productId: orderProduct.product.id,
+                        quantity: 1
+                      });
+                      await loadCart();
+                    }
                     return (
                       <Fragment key={orderProduct.product.id}>
                         <div className="product-image-container">
@@ -65,12 +74,12 @@ export function OrdersPage({ cart }) {
                             {orderProduct.product.name}
                           </div>
                           <div className="product-delivery-date">
-                            Arriving on: {dayjs(orderProduct.estimatedDeliveryTimeMs).format('MMMM D')} 
+                            Arriving on: {dayjs(orderProduct.estimatedDeliveryTimeMs).format('MMMM D')}
                           </div>
                           <div className="product-quantity">
                             Quantity: {orderProduct.quantity}
                           </div>
-                          <button className="buy-again-button button-primary">
+                          <button className="buy-again-button button-primary" onClick={addToCart}>
                             <img className="buy-again-icon" src={buyagainicon} />
                             <span className="buy-again-message">Add to Cart</span>
                           </button>
@@ -86,11 +95,11 @@ export function OrdersPage({ cart }) {
                       </Fragment>
                     )
                   })}
-               
 
-                  
 
-                 
+
+
+
                 </div>
               </div>
             )

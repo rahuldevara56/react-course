@@ -26,7 +26,7 @@ export function PaymentSummary({paymentSummary, loadCart}) {
                     </div>
     
                     <div className="payment-summary-row">
-                      <div>Shipping &amp; handling:</div>S
+                      <div>Shipping &amp; handling:</div>
                       <div className="payment-summary-money">
                         {currencyFormat(paymentSummary.shippingCostCents)}
                       </div>
